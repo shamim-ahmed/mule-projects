@@ -4,5 +4,7 @@ classes
 .project
 .settings
 .studio
+.metadata
+.mule
 *.mflow
 *.class
