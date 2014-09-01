@@ -1,4 +1,8 @@
 target
 classes
+.classpath
+.project
+.settings
+.studio
 *.mflow
 *.class
