@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:twitter="http://www.mulesoft.org/schema/mule/twitter" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/twitter/2.4/mule-twitter.xsd">
+    <twitter:config name="Twitter" accessKey="2323046875-zGcDeykTisS01Evd1YfcTAyiHl9vVyjXQHVDgZq" accessSecret="Ibvt4FA9tnygrCEBcDZmwzxKInyMQBnJqe9r977mOqR01" consumerKey="OIcMs3u2xjCMAILpwbMShXFN8" consumerSecret="1XYXuL9vZCL9cqGHQQ48DQUCvh5GmsQZdYQnZ5y5ZNEmWZHp42" doc:name="Twitter">
+        <twitter:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+    </twitter:config>
+    <flow name="twitter-update-statusFlow1" doc:name="twitter-update-statusFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8088" path="add-tweet" doc:name="HTTP"/>
+        <twitter:update-status config-ref="Twitter"    latitude="-33.8678500	" longitude="151.2073200" doc:name="Twitter" status="#[header:INBOUND:mymessage]" accessKey="2323046875-gBSywgFHQo6Qo7QOGr6foQZvarRNrLwhGTZfNC2" accessSecret="vMyjmD9i7XPO09SXmqBnKqfhaOygOAOUx3XQ5Kbra1ury"/>
+        <expression-transformer doc:name="Expression">
+            <return-argument evaluator="groovy" expression="payload.toString()"/>
+        </expression-transformer>
+    </flow>
+</mule>
