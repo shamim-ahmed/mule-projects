@@ -12,7 +12,8 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
     </twitter:config>
     <flow name="twitter-update-statusFlow1" doc:name="twitter-update-statusFlow1">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8088" path="add-tweet" doc:name="HTTP"/>
-        <twitter:update-status config-ref="Twitter"    latitude="-33.8678500	" longitude="151.2073200" doc:name="Twitter" status="#[header:INBOUND:mymessage]" accessKey="2323046875-gBSywgFHQo6Qo7QOGr6foQZvarRNrLwhGTZfNC2" accessSecret="vMyjmD9i7XPO09SXmqBnKqfhaOygOAOUx3XQ5Kbra1ury"/>
+        <set-variable variableName="newPayload" value="#[edu.buet.cse.mule.StringUtils.replaceEncodedSpaceChar(message.inboundProperties['mymessage'])]" doc:name="ReplaceSpecialChar"/>
+        <twitter:update-status config-ref="Twitter"    latitude="-33.8678500	" longitude="151.2073200" doc:name="Twitter" status="#[newPayload]" accessKey="2323046875-gBSywgFHQo6Qo7QOGr6foQZvarRNrLwhGTZfNC2" accessSecret="vMyjmD9i7XPO09SXmqBnKqfhaOygOAOUx3XQ5Kbra1ury"/>
         <expression-transformer doc:name="Expression">
             <return-argument evaluator="groovy" expression="payload.toString()"/>
         </expression-transformer>
